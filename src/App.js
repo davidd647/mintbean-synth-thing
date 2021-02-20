@@ -1,14 +1,14 @@
 import logo from "./logo.svg";
 import "./App.css";
 
-import * as Tone from "tone";
+import Keyboard from "./components/Keyboard";
 
-import { useState } from "react";
+// import * as Tone from "tone";
 
-// test...
+// // test...
 
-//create a synth and connect it to the main output (your speakers)
-const synth = new Tone.Synth().toDestination();
+// //create a synth and connect it to the main output (your speakers)
+// const synth = new Tone.Synth().toDestination();
 
 // //play a middle 'C' for the duration of an 8th note
 // synth.triggerAttackRelease("C4", "8n");
@@ -18,63 +18,10 @@ function PlayButton() {
   function handleOnClick(e) {
     e.preventDefault();
     console.log("what...");
-    synth.triggerAttackRelease("C4", "8n");
+    // synth.triggerAttackRelease("C4", "8n");
   }
 
   return <button onClick={(e) => handleOnClick(e)}>Test button</button>;
-}
-
-function Key(props) {
-  function handleClick(e) {
-    console.log(`props.note: ${props.note}`);
-    synth.triggerAttackRelease(`${[props.note]}4`, "8n");
-  }
-
-  function handleMouseOver(e) {
-    console.log("handleMouseover...");
-    console.log(`props.mouseIsDown: ${props.mouseIsDown}`);
-    if (props.mouseIsDown) {
-      synth.triggerAttackRelease(`${[props.note]}4`, "8n");
-    }
-  }
-
-  return (
-    <div onClick={handleClick} onMouseOver={handleMouseOver}>
-      {props.note}
-    </div>
-  );
-}
-
-function Keyboard() {
-  // mouseIsDown might need to be inside state... so use hooks?
-  // https://www.youtube.com/watch?v=O6P86uwfdR0&t=0s&ab_channel=WebDevSimplified
-  const [mouseIsDown, setMouseDownState] = useState("false");
-
-  function handleMouseDown() {
-    console.log("mouse is down");
-    setMouseDownState(true);
-  }
-
-  function handleMouseUp() {
-    console.log("mouse is up");
-    setMouseDownState(false);
-  }
-
-  return (
-    <div
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      style={{ display: "flex", flexDirection: "row", background: "lime" }}
-    >
-      <Key note="C" mouseIsDown={mouseIsDown} />
-      <Key note="D" mouseIsDown={mouseIsDown} />
-      <Key note="E" mouseIsDown={mouseIsDown} />
-      <Key note="F" mouseIsDown={mouseIsDown} />
-      <Key note="G" mouseIsDown={mouseIsDown} />
-      <Key note="A" mouseIsDown={mouseIsDown} />
-      <Key note="B" mouseIsDown={mouseIsDown} />
-    </div>
-  );
 }
 
 function App() {
