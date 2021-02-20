@@ -1,0 +1,31 @@
+@for $i from 1 through 12 {
+  .note:nth-child(3n + #{$i}) {
+    left: $i * 15px - 15px;
+  }
+}
+
+.keyboard {
+  /* display: flex; */
+  /* flex-direction: row; */
+  position: relative;
+  width: 180px;
+  height: 50px;
+}
+
+.note {
+  background: ivory;
+  height: 50px;
+  width: 15px;
+  color: black;
+  position: absolute;
+  &.active {
+    background: #eee;
+  }
+}
+
+.sharp {
+  background: darkgray;
+  &.active {
+    background: #999;
+  }
+}
