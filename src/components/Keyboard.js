@@ -1,4 +1,7 @@
 import { useState } from "react";
+
+import "../keyboardsass.scss";
+
 import Note from "./Note";
 
 // index.js
@@ -13,6 +16,21 @@ const synth = new Tone.Synth().toDestination();
 // synth.triggerAttackRelease("C4", "8n");
 
 export default function Keyboard() {
+  const NOTES = [
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B",
+  ];
+
   // mouseIsDown might need to be inside state... so use hooks?
   // https://www.youtube.com/watch?v=O6P86uwfdR0&t=0s&ab_channel=WebDevSimplified
   const [mouseIsDown, setMouseDownState] = useState(false);
@@ -31,15 +49,11 @@ export default function Keyboard() {
     <div
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
-      style={{ display: "flex", flexDirection: "row", background: "lime" }}
+      className="keyboard"
     >
-      <Note note="C" mouseIsDown={mouseIsDown} synth={synth} />
-      <Note note="D" mouseIsDown={mouseIsDown} synth={synth} />
-      <Note note="E" mouseIsDown={mouseIsDown} synth={synth} />
-      <Note note="F" mouseIsDown={mouseIsDown} synth={synth} />
-      <Note note="G" mouseIsDown={mouseIsDown} synth={synth} />
-      <Note note="A" mouseIsDown={mouseIsDown} synth={synth} />
-      <Note note="B" mouseIsDown={mouseIsDown} synth={synth} />
+      {NOTES.map((note) => {
+        return <Note note={note} mouseIsDown={mouseIsDown} synth={synth} />;
+      })}
     </div>
   );
 }
