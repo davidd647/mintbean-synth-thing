@@ -59,7 +59,7 @@ export default function Sharp(props) {
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
       className={classNames}
-      style={{ left: fromLeft, display: "flex", alignItems: "flex-end" }} // props.index * 15 }}
+      style={{ left: fromLeft, display: "flex", alignItems: "flex-end" }}
     >
       {/* {props.note} */}
     </div>
