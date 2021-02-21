@@ -5,20 +5,8 @@ import "../keyboardsass.scss";
 import Note from "./Note";
 import Sharp from "./Sharp";
 
-// index.js
-
-// Import ToneJS
-import * as Tone from "tone";
-
-//create a synth and connect it to the main output (your speakers)
-const synth = new Tone.Synth().toDestination();
-
-//play a middle 'C' for the duration of an 8th note
-// synth.triggerAttackRelease("C4", "8n");
-
-export default function Keyboard() {
+export default function Keyboard(props) {
   const NOTES = ["C", "D", "E", "F", "G", "A", "B"];
-
   const SHARPS = ["C#", "D#", "F#", "G#", "A#"];
 
   // mouseIsDown might need to be inside state... so use hooks?
@@ -39,25 +27,24 @@ export default function Keyboard() {
       onMouseUp={handleMouseUp}
       className="keyboard"
     >
-      {NOTES.map((note, i) => {
+      {NOTES.map((note, index) => {
         return (
           <Note
-            key={`note${i}`}
+            key={`note${index}`}
             note={note}
             mouseIsDown={mouseIsDown}
-            synth={synth}
-            index={i}
+            synth={props.currentSynth}
+            index={index}
           />
         );
       })}
-      {SHARPS.map((sharp, i) => {
+      {SHARPS.map((sharp, index) => {
         return (
           <Sharp
-            key={`sharp${i}`}
+            key={`sharp${index}`}
             note={sharp}
             mouseIsDown={mouseIsDown}
-            synth={synth}
-            index={i}
+            synth={props.currentSynth}
           />
         );
       })}
