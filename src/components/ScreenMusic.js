@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import Selector from "./Selector";
 import Keyboard from "./Keyboard";
+import Beatbox from "./Beatbox";
 
 const synthesizers = [
   new Tone.Synth().toDestination(),
@@ -13,12 +14,10 @@ const synthesizers = [
 export default function Note(props) {
   const [currentSynth, setCurrentSynth] = useState(0);
 
-  // setCurrentSynth(1);
-
   return (
     <>
+      <Beatbox />
       <Selector
-        // onClick={() => setCurrentSynth(1)}
         currentSynth={currentSynth}
         setCurrentSynth={setCurrentSynth}
         synthesizers={synthesizers}
