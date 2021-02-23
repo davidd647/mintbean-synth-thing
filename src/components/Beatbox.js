@@ -35,13 +35,13 @@ class Beatbox extends React.Component {
         this.setState(newState);
 
         if (this.state.beats[0][this.state.count % 8] === true) {
-          this.props.synth0.triggerAttackRelease(`D4`, "8n", now);
+          this.props.synth0.triggerAttackRelease(`E4`, "8n", now);
         }
         if (this.state.beats[1][this.state.count % 8] === true) {
-          this.props.synth0.triggerAttackRelease(`C4`, "8n", now + 0.01);
+          this.props.synth0.triggerAttackRelease(`D4`, "8n", now + 0.01);
         }
         if (this.state.beats[2][this.state.count % 8] === true) {
-          this.props.synth0.triggerAttackRelease(`B4`, "8n", now + 0.02);
+          this.props.synth0.triggerAttackRelease(`C4`, "8n", now + 0.02);
         }
       }, `${this.state.tempo}n`).start(0);
 
