@@ -11,11 +11,16 @@ class Beatbox extends React.Component {
     this.state = {
       count: 0,
       started: false,
-      row0: [false, false, false, false, false, false, false, false],
-      row1: [false, false, false, false, false, false, false, false],
+      beats: [
+        [false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false],
+      ],
+      tempo: 4,
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleTempoChange = this.handleTempoChange.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
@@ -29,13 +34,16 @@ class Beatbox extends React.Component {
         newState.count = this.state.count + 1;
         this.setState(newState);
 
-        if (this.state.row0[this.state.count % 8] === true) {
-          this.props.synth1.triggerAttackRelease(`D4`, "8n", now);
+        if (this.state.beats[0][this.state.count % 8] === true) {
+          this.props.synth0.triggerAttackRelease(`D4`, "8n", now);
         }
-        if (this.state.row1[this.state.count % 8] === true) {
-          this.props.synth2.triggerAttackRelease(`C4`, "8n", now + 0.01);
+        if (this.state.beats[1][this.state.count % 8] === true) {
+          this.props.synth0.triggerAttackRelease(`C4`, "8n", now + 0.01);
         }
-      }, "4n").start(0);
+        if (this.state.beats[2][this.state.count % 8] === true) {
+          this.props.synth0.triggerAttackRelease(`B4`, "8n", now + 0.02);
+        }
+      }, `${this.state.tempo}n`).start(0);
 
       Tone.Transport.start();
       Tone.context.resume();
@@ -53,11 +61,14 @@ class Beatbox extends React.Component {
 
   toggle(row, col) {
     const newState = this.state;
-    if (row === 0) {
-      newState.row0[col] = !newState.row0[col];
-    } else {
-      newState.row1[col] = !newState.row1[col];
-    }
+    newState.beats[row][col] = !newState.beats[row][col];
+    this.setState(newState);
+  }
+
+  handleTempoChange(e) {
+    const newTempo = e.target.value;
+    const newState = this.state;
+    newState.tempo = newTempo;
     this.setState(newState);
   }
 
@@ -68,25 +79,32 @@ class Beatbox extends React.Component {
           {this.state.started ? "Stop" : "Start"} beatbox
         </button>
         <div>
-          <Beat row={0} col={0} count={this.state.count} toggle={this.toggle} />
-          <Beat row={0} col={1} count={this.state.count} toggle={this.toggle} />
-          <Beat row={0} col={2} count={this.state.count} toggle={this.toggle} />
-          <Beat row={0} col={3} count={this.state.count} toggle={this.toggle} />
-          <Beat row={0} col={4} count={this.state.count} toggle={this.toggle} />
-          <Beat row={0} col={5} count={this.state.count} toggle={this.toggle} />
-          <Beat row={0} col={6} count={this.state.count} toggle={this.toggle} />
-          <Beat row={0} col={7} count={this.state.count} toggle={this.toggle} />
+          <input
+            type="number"
+            onChange={this.handleTempoChange}
+            value={this.state.tempo}
+            disabled={this.state.started ? true : false}
+            style={{ width: "32px" }}
+          />
+          -th notes
         </div>
-        <div>
-          <Beat row={1} col={0} count={this.state.count} toggle={this.toggle} />
-          <Beat row={1} col={1} count={this.state.count} toggle={this.toggle} />
-          <Beat row={1} col={2} count={this.state.count} toggle={this.toggle} />
-          <Beat row={1} col={3} count={this.state.count} toggle={this.toggle} />
-          <Beat row={1} col={4} count={this.state.count} toggle={this.toggle} />
-          <Beat row={1} col={5} count={this.state.count} toggle={this.toggle} />
-          <Beat row={1} col={6} count={this.state.count} toggle={this.toggle} />
-          <Beat row={1} col={7} count={this.state.count} toggle={this.toggle} />
-        </div>
+        {this.state.beats.map((beatsRow, beatsRowI) => {
+          return (
+            <div key={`${beatsRowI}--`}>
+              {beatsRow.map((beat, beatI) => {
+                return (
+                  <Beat
+                    key={`${beatsRowI}--${beatI}`}
+                    row={beatsRowI}
+                    col={beatI}
+                    count={this.state.count}
+                    toggle={this.toggle}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
       </form>
     );
   }
