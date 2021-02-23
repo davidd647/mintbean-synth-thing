@@ -16,7 +16,11 @@ export default function Note(props) {
 
   return (
     <>
-      <Beatbox />
+      <Beatbox
+        synth0={synthesizers[0]}
+        synth1={synthesizers[1]}
+        synth2={synthesizers[2]}
+      />
       <Selector
         currentSynth={currentSynth}
         setCurrentSynth={setCurrentSynth}
